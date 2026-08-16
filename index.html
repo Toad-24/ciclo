@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💕 Nuestro Calendario</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app">
+
+    <header>
+        <div class="heart">♥</div>
+        <h1>Nuestro Calendario</h1>
+        <p>Un espacio privado para llevar nuestro ciclo ❤️</p>
+    </header>
+
+    <section class="panel">
+
+        <div class="month-header">
+            <button id="prevMonth">‹</button>
+            <h2 id="monthTitle"></h2>
+            <button id="nextMonth">›</button>
+        </div>
+
+        <div class="weekdays">
+            <div>Lun</div>
+            <div>Mar</div>
+            <div>Mié</div>
+            <div>Jue</div>
+            <div>Vie</div>
+            <div>Sáb</div>
+            <div>Dom</div>
+        </div>
+
+        <div id="calendar" class="calendar"></div>
+
+        <div class="legend">
+            <span><i class="period"></i> Periodo</span>
+            <span><i class="fertile"></i> Fértil</span>
+            <span><i class="ovulation"></i> Ovulación</span>
+            <span><i class="relation">♥</i> Relación</span>
+        </div>
+
+    </section>
+
+    <section class="panel">
+
+        <h2>🩸 Registrar periodo</h2>
+
+        <label>Primer día del periodo</label>
+        <input type="date" id="periodDate">
+
+        <label>Duración aproximada del periodo</label>
+        <input type="number" id="periodLength" value="5" min="1" max="15">
+
+        <label>Duración del ciclo</label>
+        <input type="number" id="cycleLength" value="28" min="15" max="60">
+
+        <button class="main-btn" id="calculateBtn">
+            Calcular ciclo 💕
+        </button>
+
+    </section>
+
+    <section class="panel results">
+
+        <h2>💕 Información del ciclo</h2>
+
+        <div class="result-grid">
+
+            <div class="result-card">
+                <span>🩸</span>
+                <p>Próximo periodo</p>
+                <strong id="nextPeriod">--</strong>
+            </div>
+
+            <div class="result-card">
+                <span>🌸</span>
+                <p>Ovulación estimada</p>
+                <strong id="ovulationDate">--</strong>
+            </div>
+
+            <div class="result-card">
+                <span>💗</span>
+                <p>Días fértiles</p>
+                <strong id="fertileDates">--</strong>
+            </div>
+
+        </div>
+
+    </section>
+
+    <section class="panel">
+
+        <h2>❤️ Registrar relación</h2>
+
+        <label>Fecha</label>
+        <input type="date" id="relationDate">
+
+        <label>Nota opcional</label>
+        <input type="text" id="relationNote" placeholder="Ej: ❤️">
+
+        <button class="main-btn relation-btn" id="addRelation">
+            ❤️ Guardar relación
+        </button>
+
+        <div id="relationsList"></div>
+
+    </section>
+
+    <section class="panel">
+
+        <h2>📊 Resumen</h2>
+
+        <div class="summary">
+            <div>
+                <strong id="relationCount">0</strong>
+                <span>Relaciones registradas</span>
+            </div>
+
+            <div>
+                <strong id="cycleInfo">28</strong>
+                <span>Días del ciclo</span>
+            </div>
+        </div>
+
+        <button class="delete-btn" id="clearData">
+            🗑️ Borrar todos los datos
+        </button>
+
+    </section>
+
+    <footer>
+        <p>💕 Hecho para nosotros 💕</p>
+        <small>
+            Las fechas de fertilidad y ovulación son estimaciones.
+        </small>
+    </footer>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
