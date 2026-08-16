@@ -1,7 +1,3 @@
-// ==========================================
-// 💕 NUESTRO CALENDARIO
-// ==========================================
-
 let currentDate = new Date();
 
 let data = JSON.parse(localStorage.getItem("loveCalendar")) || {
@@ -11,9 +7,9 @@ let data = JSON.parse(localStorage.getItem("loveCalendar")) || {
     relations: []
 };
 
-// ------------------------------------------
+let selectedProtection = "";
+
 // ELEMENTOS
-// ------------------------------------------
 
 const calendar = document.getElementById("calendar");
 const monthTitle = document.getElementById("monthTitle");
@@ -23,41 +19,44 @@ const periodLengthInput = document.getElementById("periodLength");
 const cycleLengthInput = document.getElementById("cycleLength");
 
 const relationDateInput = document.getElementById("relationDate");
-const relationNoteInput = document.getElementById("relationNote");
 
 const nextPeriodElement = document.getElementById("nextPeriod");
 const ovulationElement = document.getElementById("ovulationDate");
 const fertileElement = document.getElementById("fertileDates");
 
-const relationCountElement = document.getElementById("relationCount");
-const cycleInfoElement = document.getElementById("cycleInfo");
+const relationCountElement =
+    document.getElementById("relationCount");
 
-
-// ------------------------------------------
-// FECHA ACTUAL
-// ------------------------------------------
+const cycleInfoElement =
+    document.getElementById("cycleInfo");
 
 const today = new Date();
+
+
+// FORMATO FECHA
 
 function formatDate(date) {
 
     const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
+
+    const month =
+        String(date.getMonth() + 1).padStart(2, "0");
+
+    const day =
+        String(date.getDate()).padStart(2, "0");
 
     return `${year}-${month}-${day}`;
 }
 
 
-// ------------------------------------------
-// FORMATO BONITO DE FECHA
-// ------------------------------------------
+// FECHA BONITA
 
 function prettyDate(dateString) {
 
     if (!dateString) return "--";
 
-    const date = new Date(dateString + "T12:00:00");
+    const date =
+        new Date(dateString + "T12:00:00");
 
     return date.toLocaleDateString("es-PE", {
         day: "numeric",
@@ -67,23 +66,21 @@ function prettyDate(dateString) {
 }
 
 
-// ------------------------------------------
 // SUMAR DÍAS
-// ------------------------------------------
 
 function addDays(date, days) {
 
     const result = new Date(date);
 
-    result.setDate(result.getDate() + days);
+    result.setDate(
+        result.getDate() + days
+    );
 
     return result;
 }
 
 
-// ------------------------------------------
-// GUARDAR DATOS
-// ------------------------------------------
+// GUARDAR
 
 function saveData() {
 
@@ -94,47 +91,77 @@ function saveData() {
 }
 
 
-// ------------------------------------------
+// SELECCIONAR PROTECCIÓN
+
+function selectProtection(type) {
+
+    selectedProtection = type;
+
+    document
+        .getElementById("protectedBtn")
+        .classList.remove("selected");
+
+    document
+        .getElementById("unprotectedBtn")
+        .classList.remove("selected");
+
+    if (type === "protected") {
+
+        document
+            .getElementById("protectedBtn")
+            .classList.add("selected");
+
+    }
+
+    if (type === "unprotected") {
+
+        document
+            .getElementById("unprotectedBtn")
+            .classList.add("selected");
+
+    }
+}
+
+
 // CALCULAR CICLO
-// ------------------------------------------
 
 function calculateCycle() {
 
     if (!data.periodDate) {
+
         nextPeriodElement.textContent = "--";
         ovulationElement.textContent = "--";
         fertileElement.textContent = "--";
+
         return;
     }
 
-    const firstPeriod = new Date(
-        data.periodDate + "T12:00:00"
-    );
+    const firstPeriod =
+        new Date(data.periodDate + "T12:00:00");
 
-    // Próximo periodo
-    const nextPeriod = addDays(
-        firstPeriod,
-        Number(data.cycleLength)
-    );
+    const nextPeriod =
+        addDays(
+            firstPeriod,
+            Number(data.cycleLength)
+        );
 
-    // Ovulación estimada:
-    // aproximadamente 14 días antes del siguiente periodo
-    const ovulation = addDays(
-        nextPeriod,
-        -14
-    );
+    const ovulation =
+        addDays(
+            nextPeriod,
+            -14
+        );
 
-    // Ventana fértil aproximada:
-    // 5 días antes + día de ovulación + 1 día después
-    const fertileStart = addDays(
-        ovulation,
-        -5
-    );
+    const fertileStart =
+        addDays(
+            ovulation,
+            -5
+        );
 
-    const fertileEnd = addDays(
-        ovulation,
-        1
-    );
+    const fertileEnd =
+        addDays(
+            ovulation,
+            1
+        );
 
     nextPeriodElement.textContent =
         prettyDate(formatDate(nextPeriod));
@@ -150,95 +177,117 @@ function calculateCycle() {
 }
 
 
-// ------------------------------------------
 // CALENDARIO
-// ------------------------------------------
 
 function renderCalendar() {
 
     calendar.innerHTML = "";
 
-    const year = currentDate.getFullYear();
-    const month = currentDate.getMonth();
+    const year =
+        currentDate.getFullYear();
 
-    const firstDay = new Date(year, month, 1);
+    const month =
+        currentDate.getMonth();
 
-    const lastDay = new Date(year, month + 1, 0);
+    const firstDay =
+        new Date(year, month, 1);
 
-    let startDay = firstDay.getDay();
+    const lastDay =
+        new Date(year, month + 1, 0);
 
-    // Convertir domingo = 0 a lunes = 0
-    startDay = startDay === 0 ? 6 : startDay - 1;
+    let startDay =
+        firstDay.getDay();
 
-    const monthName = currentDate.toLocaleDateString(
-        "es-PE",
-        {
-            month: "long",
-            year: "numeric"
-        }
-    );
+    startDay =
+        startDay === 0
+            ? 6
+            : startDay - 1;
+
+    const monthName =
+        currentDate.toLocaleDateString(
+            "es-PE",
+            {
+                month: "long",
+                year: "numeric"
+            }
+        );
 
     monthTitle.textContent =
         monthName.charAt(0).toUpperCase() +
         monthName.slice(1);
 
 
-    // Días vacíos
+    // ESPACIOS VACÍOS
+
     for (let i = 0; i < startDay; i++) {
 
-        const empty = document.createElement("div");
+        const empty =
+            document.createElement("div");
 
-        empty.className = "day empty";
+        empty.className =
+            "day empty";
 
         calendar.appendChild(empty);
     }
 
 
-    // Días del mes
-    for (let day = 1; day <= lastDay.getDate(); day++) {
+    // DÍAS
 
-        const date = new Date(year, month, day);
+    for (
+        let day = 1;
+        day <= lastDay.getDate();
+        day++
+    ) {
 
-        const dateString = formatDate(date);
+        const date =
+            new Date(year, month, day);
 
-        const dayElement = document.createElement("div");
+        const dateString =
+            formatDate(date);
 
-        dayElement.className = "day";
+        const dayElement =
+            document.createElement("div");
+
+        dayElement.className =
+            "day";
 
 
-        // Número
-        const number = document.createElement("div");
+        // NÚMERO
 
-        number.className = "day-number";
+        const number =
+            document.createElement("div");
 
-        number.textContent = day;
+        number.className =
+            "day-number";
+
+        number.textContent =
+            day;
 
         dayElement.appendChild(number);
 
 
-        // Hoy
-        if (dateString === formatDate(today)) {
+        // HOY
 
-            dayElement.classList.add("today");
+        if (
+            dateString ===
+            formatDate(today)
+        ) {
 
-            const todayLabel = document.createElement("span");
-
-            todayLabel.className = "day-label";
-
-            todayLabel.textContent = "Hoy";
-
-            dayElement.appendChild(todayLabel);
+            dayElement.classList.add(
+                "today"
+            );
         }
 
 
-        // ----------------------------------
         // PERIODO
-        // ----------------------------------
 
         if (data.periodDate) {
 
             const periodStart =
-                new Date(data.periodDate + "T12:00:00");
+                new Date(
+                    data.periodDate +
+                    "T12:00:00"
+                );
 
             const periodEnd =
                 addDays(
@@ -251,22 +300,13 @@ function renderCalendar() {
                 date <= periodEnd
             ) {
 
-                dayElement.classList.add("period");
-
-                const label =
-                    document.createElement("span");
-
-                label.className = "day-label";
-
-                label.textContent = "🩸 Periodo";
-
-                dayElement.appendChild(label);
+                dayElement.classList.add(
+                    "period"
+                );
             }
 
 
-            // ----------------------------------
             // FERTILIDAD
-            // ----------------------------------
 
             const nextPeriod =
                 addDays(
@@ -275,13 +315,22 @@ function renderCalendar() {
                 );
 
             const ovulation =
-                addDays(nextPeriod, -14);
+                addDays(
+                    nextPeriod,
+                    -14
+                );
 
             const fertileStart =
-                addDays(ovulation, -5);
+                addDays(
+                    ovulation,
+                    -5
+                );
 
             const fertileEnd =
-                addDays(ovulation, 1);
+                addDays(
+                    ovulation,
+                    1
+                );
 
 
             if (
@@ -289,68 +338,76 @@ function renderCalendar() {
                 date <= fertileEnd
             ) {
 
-                dayElement.classList.add("fertile");
-
-                const label =
-                    document.createElement("span");
-
-                label.className = "day-label";
-
-                label.textContent = "🌸 Fértil";
-
-                dayElement.appendChild(label);
+                dayElement.classList.add(
+                    "fertile"
+                );
             }
 
 
-            // Ovulación
+            // OVULACIÓN
+
             if (
-                dateString === formatDate(ovulation)
+                dateString ===
+                formatDate(ovulation)
             ) {
 
-                dayElement.classList.remove("fertile");
+                dayElement.classList.remove(
+                    "fertile"
+                );
 
-                dayElement.classList.add("ovulation");
-
-                const label =
-                    document.createElement("span");
-
-                label.className = "day-label";
-
-                label.textContent = "🌸 Ovulación";
-
-                dayElement.appendChild(label);
+                dayElement.classList.add(
+                    "ovulation"
+                );
             }
         }
 
 
-        // ----------------------------------
-        // RELACIONES ❤️
-        // ----------------------------------
+        // RELACIONES
 
-        const relationsThisDay =
+        const relations =
             data.relations.filter(
                 relation =>
                     relation.date === dateString
             );
 
-        if (relationsThisDay.length > 0) {
 
-            dayElement.classList.add("relation-day");
+        if (relations.length > 0) {
+
+            dayElement.classList.add(
+                "relation-day"
+            );
+
 
             const heart =
                 document.createElement("div");
 
-            heart.className = "relation-heart";
+            heart.className =
+                "relation-heart";
 
-            heart.textContent = "♥";
+
+            // Si existe alguna sin protección
+            if (
+                relations.some(
+                    r =>
+                        r.protection ===
+                        "unprotected"
+                )
+            ) {
+
+                heart.textContent = "❤️";
+
+            } else {
+
+                heart.textContent = "🛡️";
+
+            }
+
 
             dayElement.appendChild(heart);
         }
 
 
-        // ----------------------------------
         // CLICK EN DÍA
-        // ----------------------------------
 
         dayElement.addEventListener(
             "click",
@@ -359,34 +416,36 @@ function renderCalendar() {
                 relationDateInput.value =
                     dateString;
 
-                relationNoteInput.focus();
-
-                window.scrollTo({
-                    top:
-                        document.querySelector(
-                            ".relation-btn"
-                        ).offsetTop - 250,
-                    behavior: "smooth"
-                });
+                document
+                    .querySelector(
+                        ".relation-btn"
+                    )
+                    .scrollIntoView({
+                        behavior: "smooth",
+                        block: "center"
+                    });
             }
         );
 
 
-        calendar.appendChild(dayElement);
+        calendar.appendChild(
+            dayElement
+        );
     }
 }
 
 
-// ------------------------------------------
 // LISTA DE RELACIONES
-// ------------------------------------------
 
 function renderRelations() {
 
     const list =
-        document.getElementById("relationsList");
+        document.getElementById(
+            "relationsList"
+        );
 
     list.innerHTML = "";
+
 
     const sorted =
         [...data.relations].sort(
@@ -396,80 +455,110 @@ function renderRelations() {
         );
 
 
-    sorted.forEach((relation, index) => {
+    sorted.forEach(
+        relation => {
 
-        const item =
-            document.createElement("div");
+            const item =
+                document.createElement(
+                    "div"
+                );
 
-        item.className =
-            "relation-item";
-
-
-        const info =
-            document.createElement("div");
-
-        info.className =
-            "relation-info";
-
-        info.innerHTML = `
-            <strong>
-                ❤️ ${prettyDate(relation.date)}
-            </strong>
-            <small>
-                ${relation.note || "Sin nota"}
-            </small>
-        `;
+            item.className =
+                "relation-item";
 
 
-        const button =
-            document.createElement("button");
+            const info =
+                document.createElement(
+                    "div"
+                );
 
-        button.className =
-            "remove-relation";
-
-        button.textContent =
-            "Eliminar";
+            info.className =
+                "relation-info";
 
 
-        button.addEventListener(
-            "click",
-            () => {
+            let protectionText =
+                "";
 
-                const realIndex =
-                    data.relations.findIndex(
-                        r =>
-                            r.id === relation.id
-                    );
+            let protectionIcon =
+                "";
 
-                if (realIndex !== -1) {
 
-                    data.relations.splice(
-                        realIndex,
-                        1
-                    );
+            if (
+                relation.protection ===
+                "protected"
+            ) {
+
+                protectionIcon = "🛡️";
+
+                protectionText =
+                    "Con protección";
+
+            } else {
+
+                protectionIcon = "❤️";
+
+                protectionText =
+                    "Sin protección";
+            }
+
+
+            info.innerHTML = `
+                <strong>
+                    ${protectionIcon}
+                    ${prettyDate(relation.date)}
+                </strong>
+
+                <small>
+                    ${protectionText}
+                </small>
+            `;
+
+
+            const button =
+                document.createElement(
+                    "button"
+                );
+
+            button.className =
+                "remove-relation";
+
+            button.textContent =
+                "Eliminar";
+
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    data.relations =
+                        data.relations.filter(
+                            r =>
+                                r.id !==
+                                relation.id
+                        );
 
                     saveData();
 
                     renderCalendar();
+
                     renderRelations();
+
                     updateSummary();
                 }
-            }
-        );
+            );
 
 
-        item.appendChild(info);
+            item.appendChild(info);
 
-        item.appendChild(button);
+            item.appendChild(button);
 
-        list.appendChild(item);
-    });
+            list.appendChild(item);
+        }
+    );
 }
 
 
-// ------------------------------------------
 // RESUMEN
-// ------------------------------------------
 
 function updateSummary() {
 
@@ -483,9 +572,7 @@ function updateSummary() {
 }
 
 
-// ------------------------------------------
-// BOTÓN CALCULAR
-// ------------------------------------------
+// CALCULAR
 
 document
     .getElementById("calculateBtn")
@@ -493,7 +580,9 @@ document
         "click",
         () => {
 
-            if (!periodDateInput.value) {
+            if (
+                !periodDateInput.value
+            ) {
 
                 alert(
                     "Selecciona el primer día del periodo."
@@ -502,14 +591,20 @@ document
                 return;
             }
 
+
             data.periodDate =
                 periodDateInput.value;
 
             data.periodLength =
-                Number(periodLengthInput.value);
+                Number(
+                    periodLengthInput.value
+                );
 
             data.cycleLength =
-                Number(cycleLengthInput.value);
+                Number(
+                    cycleLengthInput.value
+                );
+
 
             saveData();
 
@@ -518,15 +613,13 @@ document
             renderCalendar();
 
             alert(
-                "💕 ¡Ciclo actualizado correctamente!"
+                "💕 ¡Ciclo actualizado!"
             );
         }
     );
 
 
-// ------------------------------------------
 // AGREGAR RELACIÓN
-// ------------------------------------------
 
 document
     .getElementById("addRelation")
@@ -536,6 +629,7 @@ document
 
             const date =
                 relationDateInput.value;
+
 
             if (!date) {
 
@@ -547,41 +641,58 @@ document
             }
 
 
-            const note =
-                relationNoteInput.value.trim();
+            if (!selectedProtection) {
 
-
-            const alreadyExists =
-                data.relations.some(
-                    relation =>
-                        relation.date === date
+                alert(
+                    "Selecciona si fue con o sin protección."
                 );
 
+                return;
+            }
 
-            // Permitir varias relaciones
-            // el mismo día
+
             data.relations.push({
 
-                id:
-                    Date.now(),
+                id: Date.now(),
 
-                date:
-                    date,
+                date: date,
 
-                note:
-                    note
+                protection:
+                    selectedProtection
             });
 
 
             saveData();
 
-            relationNoteInput.value = "";
+
+            selectedProtection =
+                "";
+
+
+            document
+                .getElementById(
+                    "protectedBtn"
+                )
+                .classList.remove(
+                    "selected"
+                );
+
+
+            document
+                .getElementById(
+                    "unprotectedBtn"
+                )
+                .classList.remove(
+                    "selected"
+                );
+
 
             renderCalendar();
 
             renderRelations();
 
             updateSummary();
+
 
             alert(
                 "❤️ Relación registrada."
@@ -590,9 +701,7 @@ document
     );
 
 
-// ------------------------------------------
 // CAMBIAR MES
-// ------------------------------------------
 
 document
     .getElementById("prevMonth")
@@ -624,9 +733,79 @@ document
     );
 
 
-// ------------------------------------------
-// CARGAR DATOS
-// ------------------------------------------
+// BORRAR TODO
+
+document
+    .getElementById("clearData")
+    .addEventListener(
+        "click",
+        () => {
+
+            if (
+                !confirm(
+                    "⚠️ ¿Seguro que quieres borrar todos los datos?"
+                )
+            ) return;
+
+
+            localStorage.removeItem(
+                "loveCalendar"
+            );
+
+
+            data = {
+
+                periodDate: "",
+
+                periodLength: 5,
+
+                cycleLength: 28,
+
+                relations: []
+            };
+
+
+            periodDateInput.value = "";
+
+            periodLengthInput.value = 5;
+
+            cycleLengthInput.value = 28;
+
+            relationDateInput.value =
+                formatDate(today);
+
+
+            selectedProtection = "";
+
+
+            document
+                .getElementById(
+                    "protectedBtn"
+                )
+                .classList.remove(
+                    "selected"
+                );
+
+
+            document
+                .getElementById(
+                    "unprotectedBtn"
+                )
+                .classList.remove(
+                    "selected"
+                );
+
+
+            renderCalendar();
+
+            renderRelations();
+
+            updateSummary();
+        }
+    );
+
+
+// INICIAR
 
 function loadData() {
 
@@ -642,8 +821,10 @@ function loadData() {
             data.cycleLength;
     }
 
+
     relationDateInput.value =
         formatDate(today);
+
 
     renderCalendar();
 
@@ -652,61 +833,5 @@ function loadData() {
     updateSummary();
 }
 
-
-// ------------------------------------------
-// BORRAR TODO
-// ------------------------------------------
-
-document
-    .getElementById("clearData")
-    .addEventListener(
-        "click",
-        () => {
-
-            const confirmation =
-                confirm(
-                    "⚠️ ¿Seguro que quieres borrar TODOS los datos?"
-                );
-
-            if (!confirmation) return;
-
-            localStorage.removeItem(
-                "loveCalendar"
-            );
-
-            data = {
-
-                periodDate: "",
-
-                periodLength: 5,
-
-                cycleLength: 28,
-
-                relations: []
-            };
-
-            periodDateInput.value = "";
-
-            periodLengthInput.value = 5;
-
-            cycleLengthInput.value = 28;
-
-            relationDateInput.value =
-                formatDate(today);
-
-            relationNoteInput.value = "";
-
-            renderCalendar();
-
-            renderRelations();
-
-            updateSummary();
-        }
-    );
-
-
-// ------------------------------------------
-// INICIAR
-// ------------------------------------------
 
 loadData();
