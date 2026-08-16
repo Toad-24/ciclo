@@ -1,0 +1,406 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: linear-gradient(135deg, #ffe6f0, #f5e7ff);
+    color: #4a2942;
+    min-height: 100vh;
+}
+
+.app {
+    width: 95%;
+    max-width: 850px;
+    margin: auto;
+    padding: 25px 0 50px;
+}
+
+header {
+    text-align: center;
+    padding: 25px 10px;
+}
+
+header .heart {
+    font-size: 55px;
+    color: #ff4f87;
+    animation: heartbeat 1.5s infinite;
+}
+
+header h1 {
+    font-size: 34px;
+    margin-top: 5px;
+    color: #c83b72;
+}
+
+header p {
+    margin-top: 8px;
+    color: #806275;
+}
+
+@keyframes heartbeat {
+    0%, 100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.15);
+    }
+}
+
+.panel {
+    background: rgba(255, 255, 255, 0.94);
+    border-radius: 22px;
+    padding: 25px;
+    margin-bottom: 20px;
+    box-shadow: 0 8px 30px rgba(180, 80, 130, 0.15);
+}
+
+.panel h2 {
+    color: #c83b72;
+    margin-bottom: 20px;
+}
+
+.month-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.month-header h2 {
+    margin: 0;
+    text-transform: capitalize;
+}
+
+.month-header button {
+    border: none;
+    background: #ffe1ec;
+    color: #c83b72;
+    font-size: 30px;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.month-header button:hover {
+    background: #ffc9dd;
+}
+
+.weekdays,
+.calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+}
+
+.weekdays div {
+    text-align: center;
+    font-weight: bold;
+    color: #9c6583;
+    padding: 8px 0;
+}
+
+.day {
+    min-height: 72px;
+    border-radius: 13px;
+    background: #faf7fa;
+    border: 1px solid #f1e5ed;
+    padding: 7px;
+    position: relative;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.day:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(190, 80, 130, 0.15);
+}
+
+.day.empty {
+    background: transparent;
+    border: none;
+    cursor: default;
+}
+
+.day-number {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.today {
+    border: 2px solid #c83b72;
+}
+
+.period {
+    background: #ffd2df !important;
+}
+
+.fertile {
+    background: #e8ddff !important;
+}
+
+.ovulation {
+    background: #d9c5ff !important;
+    border: 2px solid #a474e8 !important;
+}
+
+.relation-day {
+    border: 2px solid #ff4f87 !important;
+}
+
+.relation-heart {
+    position: absolute;
+    bottom: 4px;
+    right: 7px;
+    font-size: 20px;
+    color: #ff3978;
+}
+
+.day-label {
+    display: block;
+    font-size: 9px;
+    margin-top: 4px;
+    color: #7b5b70;
+}
+
+.legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 20px;
+    font-size: 13px;
+}
+
+.legend span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.legend i {
+    width: 18px;
+    height: 18px;
+    display: inline-flex;
+    border-radius: 5px;
+    align-items: center;
+    justify-content: center;
+    font-style: normal;
+}
+
+.legend .period {
+    background: #ffd2df;
+}
+
+.legend .fertile {
+    background: #e8ddff;
+}
+
+.legend .ovulation {
+    background: #d9c5ff;
+}
+
+.legend .relation {
+    color: #ff3978;
+}
+
+label {
+    display: block;
+    margin: 14px 0 7px;
+    font-weight: bold;
+    color: #654257;
+}
+
+input {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #e4cedb;
+    border-radius: 12px;
+    font-size: 15px;
+    outline: none;
+    background: #fffafd;
+}
+
+input:focus {
+    border-color: #d55b8a;
+    box-shadow: 0 0 0 3px rgba(213, 91, 138, 0.1);
+}
+
+.main-btn {
+    width: 100%;
+    border: none;
+    padding: 14px;
+    margin-top: 20px;
+    border-radius: 13px;
+    background: linear-gradient(135deg, #e9578a, #c83b72);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.main-btn:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+.relation-btn {
+    background: linear-gradient(135deg, #ff6b9c, #e53d78);
+}
+
+.result-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.result-card {
+    text-align: center;
+    background: #fff3f8;
+    border-radius: 16px;
+    padding: 18px 10px;
+}
+
+.result-card span {
+    font-size: 28px;
+}
+
+.result-card p {
+    font-size: 12px;
+    color: #876b7c;
+    margin: 8px 0;
+}
+
+.result-card strong {
+    font-size: 15px;
+    color: #c83b72;
+}
+
+#relationsList {
+    margin-top: 20px;
+}
+
+.relation-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #fff3f7;
+    border-radius: 12px;
+    padding: 12px;
+    margin-top: 8px;
+}
+
+.relation-item .heart-icon {
+    color: #ff3978;
+    font-size: 22px;
+}
+
+.relation-info strong {
+    display: block;
+}
+
+.relation-info small {
+    color: #8c7281;
+}
+
+.remove-relation {
+    border: none;
+    background: #ffdce8;
+    color: #c83b72;
+    border-radius: 8px;
+    padding: 7px 10px;
+    cursor: pointer;
+}
+
+.summary {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.summary div {
+    text-align: center;
+    background: #fff4f8;
+    padding: 20px;
+    border-radius: 15px;
+}
+
+.summary strong {
+    display: block;
+    color: #c83b72;
+    font-size: 30px;
+}
+
+.summary span {
+    font-size: 13px;
+    color: #806275;
+}
+
+.delete-btn {
+    width: 100%;
+    margin-top: 20px;
+    padding: 12px;
+    border: 1px solid #e5b8c9;
+    border-radius: 12px;
+    background: white;
+    color: #b53c68;
+    cursor: pointer;
+}
+
+footer {
+    text-align: center;
+    padding: 15px;
+    color: #906f82;
+}
+
+footer small {
+    display: block;
+    margin-top: 8px;
+    font-size: 11px;
+}
+
+@media (max-width: 600px) {
+
+    .app {
+        width: 97%;
+        padding-top: 10px;
+    }
+
+    header h1 {
+        font-size: 27px;
+    }
+
+    .panel {
+        padding: 15px;
+        border-radius: 18px;
+    }
+
+    .day {
+        min-height: 58px;
+        padding: 5px;
+    }
+
+    .day-number {
+        font-size: 12px;
+    }
+
+    .relation-heart {
+        font-size: 16px;
+    }
+
+    .result-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .weekdays {
+        font-size: 11px;
+    }
+
+    .legend {
+        font-size: 11px;
+        gap: 8px;
+    }
+}
