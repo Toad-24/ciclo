@@ -1,76 +1,101 @@
+// ============================================
+// 💕 NUESTRO ESPACIO
+// ============================================
+
 let currentDate = new Date();
 
-let data = JSON.parse(localStorage.getItem("loveCalendar")) || {
-    periodDate: "",
-    periodLength: 5,
-    cycleLength: 28,
-    relations: []
-};
+let data =
+    JSON.parse(
+        localStorage.getItem("loveCalendar")
+    ) || {
+
+        periodDate: "",
+
+        periodLength: 5,
+
+        cycleLength: 28,
+
+        relations: []
+    };
+
 
 let selectedProtection = "";
 
+
+// ============================================
 // ELEMENTOS
+// ============================================
 
-const calendar = document.getElementById("calendar");
-const monthTitle = document.getElementById("monthTitle");
+const calendar =
+    document.getElementById("calendar");
 
-const periodDateInput = document.getElementById("periodDate");
-const periodLengthInput = document.getElementById("periodLength");
-const cycleLengthInput = document.getElementById("cycleLength");
+const monthTitle =
+    document.getElementById("monthTitle");
 
-const relationDateInput = document.getElementById("relationDate");
+const periodDateInput =
+    document.getElementById("periodDate");
 
-const nextPeriodElement = document.getElementById("nextPeriod");
-const ovulationElement = document.getElementById("ovulationDate");
-const fertileElement = document.getElementById("fertileDates");
+const periodLengthInput =
+    document.getElementById("periodLength");
 
-const relationCountElement =
-    document.getElementById("relationCount");
+const cycleLengthInput =
+    document.getElementById("cycleLength");
 
-const cycleInfoElement =
-    document.getElementById("cycleInfo");
+const relationDateInput =
+    document.getElementById("relationDate");
 
 const today = new Date();
 
 
-// FORMATO FECHA
+// ============================================
+// UTILIDADES
+// ============================================
 
 function formatDate(date) {
 
-    const year = date.getFullYear();
+    const year =
+        date.getFullYear();
 
     const month =
-        String(date.getMonth() + 1).padStart(2, "0");
+        String(
+            date.getMonth() + 1
+        ).padStart(2, "0");
 
     const day =
-        String(date.getDate()).padStart(2, "0");
+        String(
+            date.getDate()
+        ).padStart(2, "0");
 
     return `${year}-${month}-${day}`;
 }
 
 
-// FECHA BONITA
-
 function prettyDate(dateString) {
 
-    if (!dateString) return "--";
+    if (!dateString)
+        return "--";
 
     const date =
-        new Date(dateString + "T12:00:00");
+        new Date(
+            dateString +
+            "T12:00:00"
+        );
 
-    return date.toLocaleDateString("es-PE", {
-        day: "numeric",
-        month: "long",
-        year: "numeric"
-    });
+    return date.toLocaleDateString(
+        "es-PE",
+        {
+            day: "numeric",
+            month: "long",
+            year: "numeric"
+        }
+    );
 }
 
 
-// SUMAR DÍAS
-
 function addDays(date, days) {
 
-    const result = new Date(date);
+    const result =
+        new Date(date);
 
     result.setDate(
         result.getDate() + days
@@ -79,8 +104,6 @@ function addDays(date, days) {
     return result;
 }
 
-
-// GUARDAR
 
 function saveData() {
 
@@ -91,59 +114,145 @@ function saveData() {
 }
 
 
-// SELECCIONAR PROTECCIÓN
+// ============================================
+// CAMBIAR SECCIONES
+// ============================================
 
-function selectProtection(type) {
-
-    selectedProtection = type;
-
-    document
-        .getElementById("protectedBtn")
-        .classList.remove("selected");
+function showSection(sectionId) {
 
     document
-        .getElementById("unprotectedBtn")
-        .classList.remove("selected");
+        .getElementById(
+            "calendarSection"
+        )
+        .classList.add("hidden");
 
-    if (type === "protected") {
+    document
+        .getElementById(
+            "memoriesSection"
+        )
+        .classList.add("hidden");
 
-        document
-            .getElementById("protectedBtn")
-            .classList.add("selected");
 
-    }
+    document
+        .getElementById(
+            sectionId
+        )
+        .classList.remove("hidden");
 
-    if (type === "unprotected") {
 
-        document
-            .getElementById("unprotectedBtn")
-            .classList.add("selected");
+    if (
+        sectionId ===
+        "memoriesSection"
+    ) {
 
+        loadMemories();
     }
 }
 
 
-// CALCULAR CICLO
+// ============================================
+// PROTECCIÓN
+// ============================================
+
+function selectProtection(type) {
+
+    selectedProtection =
+        type;
+
+
+    document
+        .getElementById(
+            "protectedBtn"
+        )
+        .classList.remove(
+            "selected"
+        );
+
+    document
+        .getElementById(
+            "unprotectedBtn"
+        )
+        .classList.remove(
+            "selected"
+        );
+
+
+    if (
+        type ===
+        "protected"
+    ) {
+
+        document
+            .getElementById(
+                "protectedBtn"
+            )
+            .classList.add(
+                "selected"
+            );
+    }
+
+
+    if (
+        type ===
+        "unprotected"
+    ) {
+
+        document
+            .getElementById(
+                "unprotectedBtn"
+            )
+            .classList.add(
+                "selected"
+            );
+    }
+}
+
+
+// ============================================
+// CICLO
+// ============================================
 
 function calculateCycle() {
 
     if (!data.periodDate) {
 
-        nextPeriodElement.textContent = "--";
-        ovulationElement.textContent = "--";
-        fertileElement.textContent = "--";
+        document
+            .getElementById(
+                "nextPeriod"
+            )
+            .textContent = "--";
+
+        document
+            .getElementById(
+                "ovulationDate"
+            )
+            .textContent = "--";
+
+        document
+            .getElementById(
+                "fertileDates"
+            )
+            .textContent = "--";
 
         return;
     }
 
+
     const firstPeriod =
-        new Date(data.periodDate + "T12:00:00");
+        new Date(
+            data.periodDate +
+            "T12:00:00"
+        );
+
 
     const nextPeriod =
         addDays(
             firstPeriod,
-            Number(data.cycleLength)
+            Number(
+                data.cycleLength
+            )
         );
+
 
     const ovulation =
         addDays(
@@ -151,11 +260,13 @@ function calculateCycle() {
             -14
         );
 
+
     const fertileStart =
         addDays(
             ovulation,
             -5
         );
+
 
     const fertileEnd =
         addDays(
@@ -163,25 +274,56 @@ function calculateCycle() {
             1
         );
 
-    nextPeriodElement.textContent =
-        prettyDate(formatDate(nextPeriod));
 
-    ovulationElement.textContent =
-        prettyDate(formatDate(ovulation));
+    document
+        .getElementById(
+            "nextPeriod"
+        )
+        .textContent =
+        prettyDate(
+            formatDate(nextPeriod)
+        );
 
-    fertileElement.textContent =
-        `${prettyDate(formatDate(fertileStart))} - ${prettyDate(formatDate(fertileEnd))}`;
 
-    cycleInfoElement.textContent =
+    document
+        .getElementById(
+            "ovulationDate"
+        )
+        .textContent =
+        prettyDate(
+            formatDate(ovulation)
+        );
+
+
+    document
+        .getElementById(
+            "fertileDates"
+        )
+        .textContent =
+        `${prettyDate(
+            formatDate(fertileStart)
+        )} - ${prettyDate(
+            formatDate(fertileEnd)
+        )}`;
+
+
+    document
+        .getElementById(
+            "cycleInfo"
+        )
+        .textContent =
         data.cycleLength;
 }
 
 
+// ============================================
 // CALENDARIO
+// ============================================
 
 function renderCalendar() {
 
     calendar.innerHTML = "";
+
 
     const year =
         currentDate.getFullYear();
@@ -189,19 +331,32 @@ function renderCalendar() {
     const month =
         currentDate.getMonth();
 
+
     const firstDay =
-        new Date(year, month, 1);
+        new Date(
+            year,
+            month,
+            1
+        );
+
 
     const lastDay =
-        new Date(year, month + 1, 0);
+        new Date(
+            year,
+            month + 1,
+            0
+        );
+
 
     let startDay =
         firstDay.getDay();
+
 
     startDay =
         startDay === 0
             ? 6
             : startDay - 1;
+
 
     const monthName =
         currentDate.toLocaleDateString(
@@ -212,26 +367,33 @@ function renderCalendar() {
             }
         );
 
+
     monthTitle.textContent =
-        monthName.charAt(0).toUpperCase() +
+        monthName
+            .charAt(0)
+            .toUpperCase() +
         monthName.slice(1);
 
 
-    // ESPACIOS VACÍOS
-
-    for (let i = 0; i < startDay; i++) {
+    for (
+        let i = 0;
+        i < startDay;
+        i++
+    ) {
 
         const empty =
-            document.createElement("div");
+            document.createElement(
+                "div"
+            );
 
         empty.className =
             "day empty";
 
-        calendar.appendChild(empty);
+        calendar.appendChild(
+            empty
+        );
     }
 
-
-    // DÍAS
 
     for (
         let day = 1;
@@ -240,30 +402,44 @@ function renderCalendar() {
     ) {
 
         const date =
-            new Date(year, month, day);
+            new Date(
+                year,
+                month,
+                day
+            );
+
 
         const dateString =
             formatDate(date);
 
+
         const dayElement =
-            document.createElement("div");
+            document.createElement(
+                "div"
+            );
+
 
         dayElement.className =
             "day";
 
 
-        // NÚMERO
-
         const number =
-            document.createElement("div");
+            document.createElement(
+                "div"
+            );
+
 
         number.className =
             "day-number";
 
+
         number.textContent =
             day;
 
-        dayElement.appendChild(number);
+
+        dayElement.appendChild(
+            number
+        );
 
 
         // HOY
@@ -289,11 +465,15 @@ function renderCalendar() {
                     "T12:00:00"
                 );
 
+
             const periodEnd =
                 addDays(
                     periodStart,
-                    Number(data.periodLength) - 1
+                    Number(
+                        data.periodLength
+                    ) - 1
                 );
+
 
             if (
                 date >= periodStart &&
@@ -311,8 +491,11 @@ function renderCalendar() {
             const nextPeriod =
                 addDays(
                     periodStart,
-                    Number(data.cycleLength)
+                    Number(
+                        data.cycleLength
+                    )
                 );
+
 
             const ovulation =
                 addDays(
@@ -320,11 +503,13 @@ function renderCalendar() {
                     -14
                 );
 
+
             const fertileStart =
                 addDays(
                     ovulation,
                     -5
                 );
+
 
             const fertileEnd =
                 addDays(
@@ -344,8 +529,6 @@ function renderCalendar() {
             }
 
 
-            // OVULACIÓN
-
             if (
                 dateString ===
                 formatDate(ovulation)
@@ -362,16 +545,19 @@ function renderCalendar() {
         }
 
 
-        // RELACIONES
+        // RELACIÓN
 
         const relations =
             data.relations.filter(
                 relation =>
-                    relation.date === dateString
+                    relation.date ===
+                    dateString
             );
 
 
-        if (relations.length > 0) {
+        if (
+            relations.length > 0
+        ) {
 
             dayElement.classList.add(
                 "relation-day"
@@ -379,13 +565,15 @@ function renderCalendar() {
 
 
             const heart =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
+
 
             heart.className =
                 "relation-heart";
 
 
-            // Si existe alguna sin protección
             if (
                 relations.some(
                     r =>
@@ -394,20 +582,21 @@ function renderCalendar() {
                 )
             ) {
 
-                heart.textContent = "❤️";
+                heart.textContent =
+                    "❤️";
 
             } else {
 
-                heart.textContent = "🛡️";
-
+                heart.textContent =
+                    "🛡️";
             }
 
 
-            dayElement.appendChild(heart);
+            dayElement.appendChild(
+                heart
+            );
         }
 
-
-        // CLICK EN DÍA
 
         dayElement.addEventListener(
             "click",
@@ -415,15 +604,6 @@ function renderCalendar() {
 
                 relationDateInput.value =
                     dateString;
-
-                document
-                    .querySelector(
-                        ".relation-btn"
-                    )
-                    .scrollIntoView({
-                        behavior: "smooth",
-                        block: "center"
-                    });
             }
         );
 
@@ -435,7 +615,9 @@ function renderCalendar() {
 }
 
 
-// LISTA DE RELACIONES
+// ============================================
+// RELACIONES
+// ============================================
 
 function renderRelations() {
 
@@ -444,15 +626,17 @@ function renderRelations() {
             "relationsList"
         );
 
+
     list.innerHTML = "";
 
 
     const sorted =
-        [...data.relations].sort(
-            (a, b) =>
-                new Date(b.date) -
-                new Date(a.date)
-        );
+        [...data.relations]
+            .sort(
+                (a, b) =>
+                    new Date(b.date) -
+                    new Date(a.date)
+            );
 
 
     sorted.forEach(
@@ -463,6 +647,7 @@ function renderRelations() {
                     "div"
                 );
 
+
             item.className =
                 "relation-item";
 
@@ -472,62 +657,54 @@ function renderRelations() {
                     "div"
                 );
 
+
             info.className =
                 "relation-info";
 
 
-            let protectionText =
-                "";
-
-            let protectionIcon =
-                "";
-
-
-            if (
+            const icon =
                 relation.protection ===
                 "protected"
-            ) {
+                    ? "🛡️"
+                    : "❤️";
 
-                protectionIcon = "🛡️";
 
-                protectionText =
-                    "Con protección";
-
-            } else {
-
-                protectionIcon = "❤️";
-
-                protectionText =
-                    "Sin protección";
-            }
+            const text =
+                relation.protection ===
+                "protected"
+                    ? "Con protección"
+                    : "Sin protección";
 
 
             info.innerHTML = `
                 <strong>
-                    ${protectionIcon}
-                    ${prettyDate(relation.date)}
+                    ${icon}
+                    ${prettyDate(
+                        relation.date
+                    )}
                 </strong>
 
                 <small>
-                    ${protectionText}
+                    ${text}
                 </small>
             `;
 
 
-            const button =
+            const remove =
                 document.createElement(
                     "button"
                 );
 
-            button.className =
+
+            remove.className =
                 "remove-relation";
 
-            button.textContent =
+
+            remove.textContent =
                 "Eliminar";
 
 
-            button.addEventListener(
-                "click",
+            remove.onclick =
                 () => {
 
                     data.relations =
@@ -537,6 +714,7 @@ function renderRelations() {
                                 relation.id
                         );
 
+
                     saveData();
 
                     renderCalendar();
@@ -544,13 +722,12 @@ function renderRelations() {
                     renderRelations();
 
                     updateSummary();
-                }
-            );
+                };
 
 
             item.appendChild(info);
 
-            item.appendChild(button);
+            item.appendChild(remove);
 
             list.appendChild(item);
         }
@@ -558,24 +735,40 @@ function renderRelations() {
 }
 
 
+// ============================================
 // RESUMEN
+// ============================================
 
 function updateSummary() {
 
-    relationCountElement.textContent =
+    document
+        .getElementById(
+            "relationCount"
+        )
+        .textContent =
         data.relations.length;
 
-    cycleInfoElement.textContent =
+
+    document
+        .getElementById(
+            "cycleInfo"
+        )
+        .textContent =
         data.cycleLength;
+
 
     calculateCycle();
 }
 
 
-// CALCULAR
+// ============================================
+// CALCULAR CICLO
+// ============================================
 
 document
-    .getElementById("calculateBtn")
+    .getElementById(
+        "calculateBtn"
+    )
     .addEventListener(
         "click",
         () => {
@@ -595,10 +788,12 @@ document
             data.periodDate =
                 periodDateInput.value;
 
+
             data.periodLength =
                 Number(
                     periodLengthInput.value
                 );
+
 
             data.cycleLength =
                 Number(
@@ -612,26 +807,29 @@ document
 
             renderCalendar();
 
+
             alert(
-                "💕 ¡Ciclo actualizado!"
+                "💕 Ciclo actualizado"
             );
         }
     );
 
 
+// ============================================
 // AGREGAR RELACIÓN
+// ============================================
 
 document
-    .getElementById("addRelation")
+    .getElementById(
+        "addRelation"
+    )
     .addEventListener(
         "click",
         () => {
 
-            const date =
-                relationDateInput.value;
-
-
-            if (!date) {
+            if (
+                !relationDateInput.value
+            ) {
 
                 alert(
                     "Selecciona una fecha."
@@ -641,10 +839,12 @@ document
             }
 
 
-            if (!selectedProtection) {
+            if (
+                !selectedProtection
+            ) {
 
                 alert(
-                    "Selecciona si fue con o sin protección."
+                    "Selecciona con o sin protección."
                 );
 
                 return;
@@ -655,7 +855,8 @@ document
 
                 id: Date.now(),
 
-                date: date,
+                date:
+                    relationDateInput.value,
 
                 protection:
                     selectedProtection
@@ -695,16 +896,20 @@ document
 
 
             alert(
-                "❤️ Relación registrada."
+                "❤️ Guardado"
             );
         }
     );
 
 
+// ============================================
 // CAMBIAR MES
+// ============================================
 
 document
-    .getElementById("prevMonth")
+    .getElementById(
+        "prevMonth"
+    )
     .addEventListener(
         "click",
         () => {
@@ -719,7 +924,9 @@ document
 
 
 document
-    .getElementById("nextMonth")
+    .getElementById(
+        "nextMonth"
+    )
     .addEventListener(
         "click",
         () => {
@@ -733,24 +940,26 @@ document
     );
 
 
-// BORRAR TODO
+// ============================================
+// BORRAR CALENDARIO
+// ============================================
 
 document
-    .getElementById("clearData")
+    .getElementById(
+        "clearData"
+    )
     .addEventListener(
         "click",
         () => {
 
             if (
                 !confirm(
-                    "⚠️ ¿Seguro que quieres borrar todos los datos?"
+                    "¿Seguro que quieres borrar los datos del calendario?"
                 )
-            ) return;
+            ) {
 
-
-            localStorage.removeItem(
-                "loveCalendar"
-            );
+                return;
+            }
 
 
             data = {
@@ -765,35 +974,17 @@ document
             };
 
 
-            periodDateInput.value = "";
-
-            periodLengthInput.value = 5;
-
-            cycleLengthInput.value = 28;
-
-            relationDateInput.value =
-                formatDate(today);
+            saveData();
 
 
-            selectedProtection = "";
+            periodDateInput.value =
+                "";
 
+            periodLengthInput.value =
+                5;
 
-            document
-                .getElementById(
-                    "protectedBtn"
-                )
-                .classList.remove(
-                    "selected"
-                );
-
-
-            document
-                .getElementById(
-                    "unprotectedBtn"
-                )
-                .classList.remove(
-                    "selected"
-                );
+            cycleLengthInput.value =
+                28;
 
 
             renderCalendar();
@@ -805,7 +996,480 @@ document
     );
 
 
+// ============================================
+// ============================================
+// 📸 SISTEMA DE RECUERDOS
+// ============================================
+// ============================================
+
+let memories = [];
+
+
+// Cargar recuerdos
+
+function loadMemories() {
+
+    const saved =
+        localStorage.getItem(
+            "loveMemories"
+        );
+
+
+    memories =
+        saved
+            ? JSON.parse(saved)
+            : [];
+
+
+    renderMemories();
+}
+
+
+// Guardar recuerdos
+
+function saveMemories() {
+
+    localStorage.setItem(
+        "loveMemories",
+        JSON.stringify(memories)
+    );
+}
+
+
+// ============================================
+// PREVISUALIZACIÓN
+// ============================================
+
+document
+    .getElementById(
+        "photoInput"
+    )
+    .addEventListener(
+        "change",
+        function () {
+
+            const file =
+                this.files[0];
+
+
+            if (!file)
+                return;
+
+
+            if (
+                !file.type.startsWith(
+                    "image/"
+                )
+            ) {
+
+                alert(
+                    "Selecciona una imagen."
+                );
+
+                return;
+            }
+
+
+            const reader =
+                new FileReader();
+
+
+            reader.onload =
+                function (event) {
+
+                    const preview =
+                        document.getElementById(
+                            "previewImage"
+                        );
+
+
+                    preview.src =
+                        event.target.result;
+
+
+                    document
+                        .getElementById(
+                            "imagePreview"
+                        )
+                        .classList.remove(
+                            "hidden"
+                        );
+                };
+
+
+            reader.readAsDataURL(file);
+        }
+    );
+
+
+// ============================================
+// GUARDAR RECUERDO
+// ============================================
+
+document
+    .getElementById(
+        "saveMemory"
+    )
+    .addEventListener(
+        "click",
+        function () {
+
+            const file =
+                document.getElementById(
+                    "photoInput"
+                ).files[0];
+
+
+            const title =
+                document.getElementById(
+                    "memoryTitle"
+                ).value.trim();
+
+
+            const description =
+                document.getElementById(
+                    "memoryDescription"
+                ).value.trim();
+
+
+            const date =
+                document.getElementById(
+                    "memoryDate"
+                ).value;
+
+
+            if (!file) {
+
+                alert(
+                    "Selecciona una foto."
+                );
+
+                return;
+            }
+
+
+            if (!title) {
+
+                alert(
+                    "Ponle un título al recuerdo."
+                );
+
+                return;
+            }
+
+
+            const reader =
+                new FileReader();
+
+
+            reader.onload =
+                function (event) {
+
+                    const memory = {
+
+                        id: Date.now(),
+
+                        image:
+                            event.target.result,
+
+                        title:
+                            title,
+
+                        description:
+                            description,
+
+                        date:
+                            date ||
+                            formatDate(
+                                new Date()
+                            )
+                    };
+
+
+                    memories.unshift(
+                        memory
+                    );
+
+
+                    saveMemories();
+
+                    renderMemories();
+
+
+                    // LIMPIAR
+
+                    document
+                        .getElementById(
+                            "photoInput"
+                        )
+                        .value = "";
+
+
+                    document
+                        .getElementById(
+                            "memoryTitle"
+                        )
+                        .value = "";
+
+
+                    document
+                        .getElementById(
+                            "memoryDescription"
+                        )
+                        .value = "";
+
+
+                    document
+                        .getElementById(
+                            "memoryDate"
+                        )
+                        .value = "";
+
+
+                    document
+                        .getElementById(
+                            "imagePreview"
+                        )
+                        .classList.add(
+                            "hidden"
+                        );
+
+
+                    document
+                        .getElementById(
+                            "previewImage"
+                        )
+                        .src = "";
+
+
+                    alert(
+                        "📸 ¡Recuerdo guardado!"
+                    );
+                };
+
+
+            reader.readAsDataURL(file);
+        }
+    );
+
+
+// ============================================
+// MOSTRAR RECUERDOS
+// ============================================
+
+function renderMemories() {
+
+    const gallery =
+        document.getElementById(
+            "memoriesGallery"
+        );
+
+
+    const empty =
+        document.getElementById(
+            "emptyMemories"
+        );
+
+
+    const count =
+        document.getElementById(
+            "memoryCount"
+        );
+
+
+    gallery.innerHTML = "";
+
+
+    count.textContent =
+        `${memories.length} ${
+            memories.length === 1
+                ? "recuerdo"
+                : "recuerdos"
+        }`;
+
+
+    if (
+        memories.length === 0
+    ) {
+
+        empty.classList.remove(
+            "hidden"
+        );
+
+        return;
+    }
+
+
+    empty.classList.add(
+        "hidden"
+    );
+
+
+    memories.forEach(
+        memory => {
+
+            const card =
+                document.createElement(
+                    "article"
+                );
+
+
+            card.className =
+                "memory-card";
+
+
+            const image =
+                document.createElement(
+                    "img"
+                );
+
+
+            image.className =
+                "memory-image";
+
+
+            image.src =
+                memory.image;
+
+
+            image.alt =
+                memory.title;
+
+
+            const content =
+                document.createElement(
+                    "div"
+                );
+
+
+            content.className =
+                "memory-content";
+
+
+            const title =
+                document.createElement(
+                    "h3"
+                );
+
+
+            title.className =
+                "memory-title";
+
+
+            title.textContent =
+                memory.title;
+
+
+            const description =
+                document.createElement(
+                    "p"
+                );
+
+
+            description.className =
+                "memory-description";
+
+
+            description.textContent =
+                memory.description ||
+                "Sin descripción";
+
+
+            const date =
+                document.createElement(
+                    "small"
+                );
+
+
+            date.className =
+                "memory-date";
+
+
+            date.textContent =
+                "📅 " +
+                prettyDate(
+                    memory.date
+                );
+
+
+            const deleteButton =
+                document.createElement(
+                    "button"
+                );
+
+
+            deleteButton.className =
+                "delete-memory";
+
+
+            deleteButton.textContent =
+                "🗑️ Eliminar";
+
+
+            deleteButton.onclick =
+                () => {
+
+                    if (
+                        !confirm(
+                            "¿Eliminar este recuerdo?"
+                        )
+                    ) {
+
+                        return;
+                    }
+
+
+                    memories =
+                        memories.filter(
+                            m =>
+                                m.id !==
+                                memory.id
+                        );
+
+
+                    saveMemories();
+
+                    renderMemories();
+                };
+
+
+            content.appendChild(
+                title
+            );
+
+            content.appendChild(
+                description
+            );
+
+            content.appendChild(
+                date
+            );
+
+            content.appendChild(
+                deleteButton
+            );
+
+
+            card.appendChild(
+                image
+            );
+
+            card.appendChild(
+                content
+            );
+
+
+            gallery.appendChild(
+                card
+            );
+        }
+    );
+}
+
+
+// ============================================
 // INICIAR
+// ============================================
 
 function loadData() {
 
@@ -814,8 +1478,10 @@ function loadData() {
         periodDateInput.value =
             data.periodDate;
 
+
         periodLengthInput.value =
             data.periodLength;
+
 
         cycleLengthInput.value =
             data.cycleLength;
@@ -823,7 +1489,9 @@ function loadData() {
 
 
     relationDateInput.value =
-        formatDate(today);
+        formatDate(
+            new Date()
+        );
 
 
     renderCalendar();
@@ -831,6 +1499,8 @@ function loadData() {
     renderRelations();
 
     updateSummary();
+
+    loadMemories();
 }
 
 
