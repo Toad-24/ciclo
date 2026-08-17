@@ -11,20 +11,20 @@
 <div class="app">
 <header class="hero"><div class="big-heart">♥</div><h1>Nuestro Espacio</h1><p>Nuestros días, recuerdos y momentos juntos❤️</p></header>
 <nav class="navigation">
-<button onclick="showSection('calendarSection')">📅 Calendario</button>
-<button onclick="showSection('datesSection')">💕 Citas</button>
-<button onclick="showSection('memoriesSection')">📸 Recuerdos</button>
+<button onclick="showSection('calendarSection')">Calendario</button>
+<button onclick="showSection('datesSection')">Citas</button>
+<button onclick="showSection('memoriesSection')">Recuerdos</button>
 </nav>
 <main id="calendarSection">
 <section class="panel"><div class="month-header"><button id="prevMonth">‹</button><h2 id="monthTitle"></h2><button id="nextMonth">›</button></div><div class="weekdays"><div>Lun</div><div>Mar</div><div>Mié</div><div>Jue</div><div>Vie</div><div>Sáb</div><div>Dom</div></div><div id="calendar" class="calendar"></div><div class="legend"><span><i class="period-color"></i>Periodo</span><span><i class="fertile-color"></i>Fértil</span><span><i class="ovulation-color"></i>Ovulación</span><span>❤️ Sin protección</span><span>🛡️ Con protección</span></div></section>
 <section class="panel"><h2>🩸 Ciclo</h2><label>Primer día del periodo</label><input type="date" id="periodDate"><label>Duración del periodo</label><input type="number" id="periodLength" value="5" min="1" max="15"><label>Duración del ciclo</label><input type="number" id="cycleLength" value="28" min="15" max="60"><button class="main-btn" id="calculateBtn">💕 Calcular ciclo</button></section>
 <section class="panel"><h2>🌸 Información</h2><div class="result-grid"><div class="result-card"><span>🩸</span><p>Próximo periodo</p><strong id="nextPeriod">--</strong></div><div class="result-card"><span>🌸</span><p>Ovulación estimada</p><strong id="ovulationDate">--</strong></div><div class="result-card"><span>💗</span><p>Días fértiles</p><strong id="fertileDates">--</strong></div></div></section>
-<section class="panel"><h2>❤️ Registrar relación</h2><label>Fecha</label><input type="date" id="relationDate"><label>Protección</label><div class="protection-options"><button type="button" id="protectedBtn" class="protection-option" onclick="selectProtection('protected')">🛡️ <span>Con protección</span></button><button type="button" id="unprotectedBtn" class="protection-option" onclick="selectProtection('unprotected')">❤️ <span>Sin protección</span></button></div><button class="main-btn relation-btn" id="addRelation">❤️ Guardar</button><div id="relationsList"></div></section>
+<section class="panel"><h2>Registrar el Sabo</h2><label>Fecha</label><input type="date" id="relationDate"><label>Protección</label><div class="protection-options"><button type="button" id="protectedBtn" class="protection-option" onclick="selectProtection('protected')">🛡️ <span>Con protección</span></button><button type="button" id="unprotectedBtn" class="protection-option" onclick="selectProtection('unprotected')">❤️ <span>Sin protección</span></button></div><button class="main-btn relation-btn" id="addRelation">❤️ Guardar</button><div id="relationsList"></div></section>
 <section class="panel"><h2>Resumen</h2><div class="summary"><div><strong id="relationCount">0</strong><span>Relaciones registradas</span></div><div><strong id="cycleInfo">28</strong><span>Días del ciclo</span></div></div><button class="delete-btn" id="clearData">🗑️ Borrar datos del calendario</button></section>
 </main>
 <main id="datesSection" class="hidden">
-<section class="panel"><div class="camera-icon">💕</div><h2>Nuestras citas</h2><p>Guarda nuestros planes y momentos especiales ❤️</p></section>
-<section class="panel"><h2>➕ Agregar cita</h2><label>Título</label><input type="text" id="dateTitle" placeholder="Ej: Cena juntos ❤️"><label>Fecha</label><input type="date" id="dateDate"><label>Hora</label><input type="time" id="dateTime"><label>Lugar</label><input type="text" id="datePlace" placeholder="Ej: Restaurante"><label>Descripción</label><textarea id="dateDescription" placeholder="¿Qué haremos ese día?" rows="4"></textarea><button class="main-btn" id="saveDate">💕 Guardar cita</button></section>
+<section class="panel"><div class="camera-icon"></div><h2>Nuestras citas</h2><p>Guarda nuestros planes y momentos especiales ❤️</p></section>
+<section class="panel"><h2>Agregar cita</h2><label>Título</label><input type="text" id="dateTitle" placeholder="Ej: Cena juntos ❤️"><label>Fecha</label><input type="date" id="dateDate"><label>Hora</label><input type="time" id="dateTime"><label>Lugar</label><input type="text" id="datePlace" placeholder="Ej: Restaurante"><label>Descripción</label><textarea id="dateDescription" placeholder="¿Qué haremos ese día?" rows="4"></textarea><button class="main-btn" id="saveDate">💕 Guardar cita</button></section>
 <section class="panel"><div class="gallery-header"><h2>💗 Próximas citas</h2><span id="dateCount">0 citas</span></div><div id="datesList"></div><div id="emptyDates" class="empty-memories"><div>💕</div><h3>No hay citas todavía</h3><p>Agreguen su primera cita ❤️</p></div></section>
 </main>
 <main id="memoriesSection" class="hidden">
