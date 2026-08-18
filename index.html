@@ -11,11 +11,11 @@
 <div class="app">
 <header class="hero"><div class="big-heart">♥</div><h1>Nuestro Espacio</h1><p>Nuestros días, recuerdos y momentos juntos❤️</p><button id="themeToggle" class="theme-btn" type="button">🌙 Modo oscuro</button></header>
 <nav class="navigation">
-<button onclick="showSection('homeSection')">🏠 Inicio</button><button onclick="showSection('calendarSection')">Calendario</button><button onclick="showSection('datesSection')">Citas</button><button onclick="showSection('importantSection')">⭐ Fechas importantes</button><button onclick="showSection('memoriesSection')">Recuerdos</button>
+<button onclick="showSection('homeSection')">Inicio</button><button onclick="showSection('calendarSection')">Calendario</button><button onclick="showSection('datesSection')">Citas</button><button onclick="showSection('importantSection')">⭐ Fechas importantes</button><button onclick="showSection('memoriesSection')">Recuerdos</button>
 </nav>
 <main id="homeSection">
-<section class="panel counter-panel"><h2>❤️ Nuestro contador</h2><p>Juntos desde el 28 de agosto de 2022</p><div id="relationshipCounter" class="relationship-counter">Calculando...</div><div class="counter-subtitle">Cada día juntos es un recuerdo más ❤️</div></section>
-<section class="panel"><h2>⭐ Próximas fechas importantes</h2><div id="homeImportantDates"></div></section>
+<section class="panel counter-panel"><h2>Nuestro contador</h2><p>Juntos desde el 28 de agosto de 2020</p><div id="relationshipCounter" class="relationship-counter">Calculando...</div><div class="counter-subtitle">Cada día juntos es un recuerdo más ❤️</div></section>
+<section class="panel"><h2>Próximas fechas importantes</h2><div id="homeImportantDates"></div></section>
 </main>
 <main id="calendarSection" class="hidden">
 <section class="panel"><div class="month-header"><button id="prevMonth">‹</button><h2 id="monthTitle"></h2><button id="nextMonth">›</button></div><div class="weekdays"><div>Lun</div><div>Mar</div><div>Mié</div><div>Jue</div><div>Vie</div><div>Sáb</div><div>Dom</div></div><div id="calendar" class="calendar"></div><div class="legend"><span><i class="period-color"></i>Periodo</span><span><i class="fertile-color"></i>Fértil</span><span><i class="ovulation-color"></i>Ovulación</span><span>❤️ Sin protección</span><span>🛡️ Con protección</span></div></section>
@@ -30,8 +30,8 @@
 <section class="panel"><div class="gallery-header"><h2>Próximas citas</h2><span id="dateCount">0 citas</span></div><div id="datesList"></div><div id="emptyDates" class="empty-memories"><div>💕</div><h3>No hay citas todavía</h3><p>Agreguen su primera cita ❤️</p></div></section>
 </main>
 <main id="importantSection" class="hidden">
-<section class="panel"><h2>⭐ Fechas importantes</h2><p>Guarden aquí aniversarios, cumpleaños y otros días especiales ❤️</p></section>
-<section class="panel"><h2>Agregar fecha importante</h2><label>Nombre</label><input type="text" id="importantTitle" placeholder="Ej: Nuestro aniversario ❤️"><label>Fecha</label><input type="date" id="importantDate"><label>Descripción</label><textarea id="importantDescription" placeholder="¿Qué celebramos?" rows="4"></textarea><button class="main-btn" id="saveImportant">⭐ Guardar fecha</button></section>
+<section class="panel"><h2>Fechas importantes</h2><p>Guardar Cosas sabos</p></section>
+<section class="panel"><h2>Agregar fecha importante</h2><label>Nombre</label><input type="text" id="importantTitle" placeholder="Ej: Nuestro aniversario ❤️"><label>Fecha</label><input type="date" id="importantDate"><label>Descripción</label><textarea id="importantDescription" placeholder="¿Qué celebramos?" rows="4"></textarea><button class="main-btn" id="saveImportant">Guardar fecha</button></section>
 <section class="panel"><div class="gallery-header"><h2>Nuestras fechas</h2><span id="importantCount">0 fechas</span></div><div id="importantDatesList"></div></section>
 </main>
 <main id="memoriesSection" class="hidden">
