@@ -5,17 +5,19 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Popi espacio</title>
 <link rel="icon" type="image/jpeg" href="https://raw.githubusercontent.com/Toad-24/ciclo/main/cloe.jpeg">
-<link rel="stylesheet" href="style.css?v=3">
+<link rel="stylesheet" href="style.css?v=4">
 </head>
 <body>
 <div class="app">
-<header class="hero"><div class="big-heart">♥</div><h1>Nuestro Espacio</h1><p>Nuestros días, recuerdos y momentos juntos❤️</p></header>
+<header class="hero"><div class="big-heart">♥</div><h1>Nuestro Espacio</h1><p>Nuestros días, recuerdos y momentos juntos❤️</p><button id="themeToggle" class="theme-btn" type="button">🌙 Modo oscuro</button></header>
 <nav class="navigation">
-<button onclick="showSection('calendarSection')">Calendario</button>
-<button onclick="showSection('datesSection')">Citas</button>
-<button onclick="showSection('memoriesSection')">Recuerdos</button>
+<button onclick="showSection('homeSection')">🏠 Inicio</button><button onclick="showSection('calendarSection')">Calendario</button><button onclick="showSection('datesSection')">Citas</button><button onclick="showSection('importantSection')">⭐ Fechas importantes</button><button onclick="showSection('memoriesSection')">Recuerdos</button>
 </nav>
-<main id="calendarSection">
+<main id="homeSection">
+<section class="panel counter-panel"><h2>❤️ Nuestro contador</h2><p>Juntos desde el 28 de agosto de 2022</p><div id="relationshipCounter" class="relationship-counter">Calculando...</div><div class="counter-subtitle">Cada día juntos es un recuerdo más ❤️</div></section>
+<section class="panel"><h2>⭐ Próximas fechas importantes</h2><div id="homeImportantDates"></div></section>
+</main>
+<main id="calendarSection" class="hidden">
 <section class="panel"><div class="month-header"><button id="prevMonth">‹</button><h2 id="monthTitle"></h2><button id="nextMonth">›</button></div><div class="weekdays"><div>Lun</div><div>Mar</div><div>Mié</div><div>Jue</div><div>Vie</div><div>Sáb</div><div>Dom</div></div><div id="calendar" class="calendar"></div><div class="legend"><span><i class="period-color"></i>Periodo</span><span><i class="fertile-color"></i>Fértil</span><span><i class="ovulation-color"></i>Ovulación</span><span>❤️ Sin protección</span><span>🛡️ Con protección</span></div></section>
 <section class="panel"><h2>🩸 Ciclo</h2><label>Primer día del periodo</label><input type="date" id="periodDate"><label>Duración del periodo</label><input type="number" id="periodLength" value="5" min="1" max="15"><label>Duración del ciclo</label><input type="number" id="cycleLength" value="28" min="15" max="60"><button class="main-btn" id="calculateBtn">💕 Calcular ciclo</button></section>
 <section class="panel"><h2>🌸 Información</h2><div class="result-grid"><div class="result-card"><span>🩸</span><p>Próximo periodo</p><strong id="nextPeriod">--</strong></div><div class="result-card"><span>🌸</span><p>Ovulación estimada</p><strong id="ovulationDate">--</strong></div><div class="result-card"><span>💗</span><p>Días fértiles</p><strong id="fertileDates">--</strong></div></div></section>
@@ -27,6 +29,11 @@
 <section class="panel"><h2>Agregar cita</h2><label>Título</label><input type="text" id="dateTitle" placeholder="Ej: Cena juntos ❤️"><label>Fecha</label><input type="date" id="dateDate"><label>Hora</label><input type="time" id="dateTime"><label>Lugar</label><input type="text" id="datePlace" placeholder="Ej: Restaurante"><label>Descripción</label><textarea id="dateDescription" placeholder="¿Qué haremos ese día?" rows="4"></textarea><button class="main-btn" id="saveDate">💕 Guardar cita</button></section>
 <section class="panel"><div class="gallery-header"><h2>Próximas citas</h2><span id="dateCount">0 citas</span></div><div id="datesList"></div><div id="emptyDates" class="empty-memories"><div>💕</div><h3>No hay citas todavía</h3><p>Agreguen su primera cita ❤️</p></div></section>
 </main>
+<main id="importantSection" class="hidden">
+<section class="panel"><h2>⭐ Fechas importantes</h2><p>Guarden aquí aniversarios, cumpleaños y otros días especiales ❤️</p></section>
+<section class="panel"><h2>Agregar fecha importante</h2><label>Nombre</label><input type="text" id="importantTitle" placeholder="Ej: Nuestro aniversario ❤️"><label>Fecha</label><input type="date" id="importantDate"><label>Descripción</label><textarea id="importantDescription" placeholder="¿Qué celebramos?" rows="4"></textarea><button class="main-btn" id="saveImportant">⭐ Guardar fecha</button></section>
+<section class="panel"><div class="gallery-header"><h2>Nuestras fechas</h2><span id="importantCount">0 fechas</span></div><div id="importantDatesList"></div></section>
+</main>
 <main id="memoriesSection" class="hidden">
 <section class="panel memories-header"><div class="camera-icon"></div><h2>Nuestros recuerdos</h2><p>Guarda aquí nuestras salidas y momentos especiales ❤️</p></section>
 <section class="panel"><h2>Agregar recuerdo</h2><label>Foto</label><input type="file" id="photoInput" accept="image/*"><div id="imagePreview" class="image-preview hidden"><img id="previewImage" src="" alt="Vista previa"></div><label>Título</label><input type="text" id="memoryTitle" placeholder="Ej: Nuestra salida ❤️"><label>Descripción</label><textarea id="memoryDescription" placeholder="Cuéntanos qué hicimos ese día..." rows="5"></textarea><label>Fecha</label><input type="date" id="memoryDate"><button class="main-btn" id="saveMemory" type="button">💕 Guardar recuerdo</button></section>
@@ -34,6 +41,6 @@
 </main>
 <footer><p>Hecho para nosotros</p><small>Las fechas de fertilidad son solamente estimaciones.</small></footer>
 </div>
-<script src="script.js?v=3"></script>
+<script src="script.js?v=4"></script>
 </body>
 </html>
